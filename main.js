@@ -3,8 +3,8 @@ var Globals = {
     ctx: 'http://www.zlhui.com',
     ctxImage: 'http://www.zlhui.com/patent_img',
     ftpCtxImage: 'http://www.zlhui.com/zlhui_img',
-    sessionId: 'DB1AA58744B13A7B96F84B18401461F6',
-    modulus: '98d597af37fe4aea842fa12174571a66ccdc60eac968d83c59a0299fd351f11bf454f24f6707649ba3a8ae1b5bd355fddb39a374431eacfa102d7028d62c9717cf2540023c1d4aefb0b6c403d4c1cb475e008699c41904853b7ebe3bf7fd17cf71f33578d68be7e5b6216ef7bcca9d9de533f8109ce82cd0e3b1600734a140d3',
+    sessionId: '8C650B53EEDF701FC59A49BC2BD99E83',
+    modulus: 'b342a7b28fa3f2e13d8bea4351e39bb87ea1c905e1b7b30541eb275348c6fc90283f263e625e42a4c3850e7ace9456c138648042b3f98efa2e3659c4c8dacd5e3c25b35f848438115e41cd284b2b469225a3f9eeac0fe0a92d86fb260d2dcd16ceb084229fbfa03e889ba65eef5ff4e3b22b56723d0cf46489c257b99b7839c1',
     memberId: '',
     cutime:'20190924',
     tmImgPath:'http://123.207.87.154/tm_img'
@@ -417,36 +417,36 @@ function BarrettMu_powMod(x, y)
     return result;
 }
 
-
-function RSAKeyPair(encryptionExponent, decryptionExponent, modulus, keylen)
-{
-    /*
-    * Convert from hexadecimal and save the encryption/decryption exponents and
-    * modulus as big integers in the key object.
-    */
-    this.e = biFromHex(encryptionExponent);
-    this.d = biFromHex(decryptionExponent);
-    this.m = biFromHex(modulus);
-    /*
-    * Using big integers, we can represent two bytes per element in the big
-    * integer array, so we calculate the chunk size as:
-    *
-    *      chunkSize = 2 * (number of digits in modulus - 1)
-    *
-    * Since biHighIndex returns the high index, not the number of digits, the
-    * number 1 has already been subtracted from its answer.
-    *
-    * However, having said all this, "User Knows Best".  If our caller passes us
-    * a key length (in bits), we'll treat it as gospel truth.
-    */
-    if (typeof(keylen) != 'number') { this.chunkSize = 2 * biHighIndex(this.m); }
-    else { this.chunkSize = keylen / 8; }
-
-    this.radix = 16;
-    /*
-    * Precalculate the stuff used for Barrett modular reductions.
-    */
-    this.barrett = new BarrettMu(this.m);
+var a = ['NoPadding', 'PKCS1Padding', 'RawEncoding', 'NumericEncoding', 'number', 'chunkSize', 'radix', 'length', 'string', 'charCodeAt', 'floor', 'digits', 'barrett', 'powMod', 'substring'];
+(function(c, d) {
+    var e = function(f) {
+        while (--f) {
+            c['push'](c['shift']());
+        }
+    };
+    e(++d);
+}(a, 0x195));
+var b = function(c, d) {
+    c = c - 0x0;
+    var e = a[c];
+    return e;
+};
+var RSAAPP = {};
+RSAAPP[b('0x0')] = b('0x0');
+RSAAPP[b('0x1')] = b('0x1');
+RSAAPP[b('0x2')] = b('0x2');
+RSAAPP[b('0x3')] = 'NumericEncoding';
+function RSAKeyPair(c, d, e, f) {
+    this['e'] = biFromHex(c);
+    this['d'] = biFromHex(d);
+    this['m'] = biFromHex(e);
+    if (typeof f != b('0x4')) {
+        this[b('0x5')] = 0x2 * biHighIndex(this['m']);
+    } else {
+        this[b('0x5')] = f / 0x8;
+    }
+    this[b('0x6')] = 0x10;
+    this['barrett'] = new BarrettMu(this['m']);
 }
 
 
@@ -505,154 +505,123 @@ function biToHex(x)
     return result;
 }
 
-function encryptedString(key, s, pad, encoding)
-{
-    var a = new Array();                    // The usual Alice and Bob stuff
-    var sl = s.length;                      // Plaintext string length
-    var i, j, k;                            // The usual Fortran index stuff
-    var padtype;                            // Type of padding to do
-    var encodingtype;                       // Type of output encoding
-    var rpad;                               // Random pad
-    var al;                                 // Array length
-    var result = "";                        // Cypthertext result
-    var block;                              // Big integer block to encrypt
-    var crypt;                              // Big integer result
-    var text;                               // Text result
-    /*
-    * Figure out the padding type.
-    */
-    if (typeof(pad) == 'string') {
-        if (pad == RSAAPP.NoPadding) { padtype = 1; }
-        else if (pad == RSAAPP.PKCS1Padding) { padtype = 2; }
-        else { padtype = 0; }
-    }
-    else { padtype = 0; }
-    /*
-    * Determine encoding type.
-    */
-    if (typeof(encoding) == 'string' && encoding == RSAAPP.RawEncoding) {
-        encodingtype = 1;
-    }
-    else { encodingtype = 0; }
-
-    /*
-    * If we're not using Dave's padding method, we need to truncate long
-    * plaintext blocks to the correct length for the padding method used:
-    *
-    *       NoPadding    - key length
-    *       PKCS1Padding - key length - 11
-    */
-    if (padtype == 1) {
-        if (sl > key.chunkSize) { sl = key.chunkSize; }
-    }
-    else if (padtype == 2) {
-        if (sl > (key.chunkSize-11)) { sl = key.chunkSize - 11; }
-    }
-    /*
-    * Convert the plaintext string to an array of characters so that we can work
-    * with individual characters.
-    *
-    * Note that, if we're talking to a real crypto library at the other end, we
-    * reverse the plaintext order to preserve big-endian order.
-    */
-    i = 0;
-
-    if (padtype == 2) { j = sl - 1; }
-    else { j = key.chunkSize - 1; }
-
-    while (i < sl) {
-        if (padtype) { a[j] = s.charCodeAt(i); }
-        else { a[i] = s.charCodeAt(i); }
-
-        i++; j--;
-    }
-    /*
-    * Now is the time to add the padding.
-    *
-    * If we're doing PKCS1v1.5 padding, we pick up padding where we left off and
-    * pad the remainder of the block.  Otherwise, we pad at the front of the
-    * block.  This gives us the correct padding for big-endian blocks.
-    *
-    * The padding is either a zero byte or a randomly-generated non-zero byte.
-    */
-    if (padtype == 1) { i = 0; }
-
-    j = key.chunkSize - (sl % key.chunkSize);
-
-    while (j > 0) {
-        if (padtype == 2) {
-            rpad = Math.floor(Math.random() * 256);
-
-            while (!rpad) { rpad = Math.floor(Math.random() * 256); }
-
-            a[i] = rpad;
+function encryptedString(g, h, i, j) {
+    h = h + '5XyzNhd4^';
+    h = h + '-';
+    h = h + '+';
+    h = h + '9gDH2Nc^';
+    var k = new Array();
+    var l = h[b('0x7')];
+    var m, n, o;
+    var p;
+    var q;
+    var r;
+    var s;
+    var t = '';
+    var u;
+    var v;
+    var w;
+    if (typeof i == b('0x8')) {
+        if (i == RSAAPP[b('0x0')]) {
+            p = 0x1;
+        } else if (i == RSAAPP[b('0x1')]) {
+            p = 0x2;
+        } else {
+            p = 0x0;
         }
-        else { a[i] = 0; }
-
-        i++; j--;
+    } else {
+        p = 0x0;
     }
-    /*
-    * For PKCS1v1.5 padding, we need to fill in the block header.
-    *
-    * According to RFC 2313, a block type, a padding string, and the data shall
-    * be formatted into the encryption block:
-    *
-    *      EncrBlock = 00 || BlockType || PadString || 00 || Data
-    *
-    * The block type shall be a single octet indicating the structure of the
-    * encryption block. For this version of the document it shall have value 00,
-    * 01, or 02. For a private-key operation, the block type shall be 00 or 01.
-    * For a public-key operation, it shall be 02.
-    *
-    * The padding string shall consist of enough octets to pad the encryption
-    * block to the length of the encryption key.  For block type 00, the octets
-    * shall have value 00; for block type 01, they shall have value FF; and for
-    * block type 02, they shall be pseudorandomly generated and nonzero.
-    *
-    * Note that in a previous step, we wrote padding bytes into the first three
-    * bytes of the encryption block because it was simpler to do so.  We now
-    * overwrite them.
-    */
-    if (padtype == 2)
-    {
-        a[sl] = 0;
-        a[key.chunkSize-2] = 2;
-        a[key.chunkSize-1] = 0;
+    if (typeof j == b('0x8') && j == RSAAPP[b('0x2')]) {
+        q = 0x1;
+    } else {
+        q = 0x0;
     }
-    /*
-    * Carve up the plaintext and encrypt each of the resultant blocks.
-    */
-    al = a.length;
-
-    for (i = 0; i < al; i += key.chunkSize) {
-        /*
-        * Get a block.
-        */
-        block = new BigInt();
-
-        j = 0;
-
-        for (k = i; k < (i+key.chunkSize); ++j) {
-            block.digits[j] = a[k++];
-            block.digits[j] += a[k++] << 8;
+    if (p == 0x1) {
+        if (l > g['chunkSize']) {
+            l = g[b('0x5')];
         }
-        /*
-        * Encrypt it, convert it to text, and append it to the result.
-        */
-        crypt = key.barrett.powMod(block, key.e);
-        if (encodingtype == 1) {
-            text = biToBytes(crypt);
+    } else if (p == 0x2) {
+        if (l > g[b('0x5')] - 0xb) {
+            l = g[b('0x5')] - 0xb;
         }
-        else {
-            text = (key.radix == 16) ? biToHex(crypt) : biToString(crypt, key.radix);
-        }
-        result += text;
     }
-    /*
-    * Return the result, removing the last space.
-    */
-//result = (result.substring(0, result.length - 1));
-    return result;
+    m = 0x0;
+    if (p == 0x2) {
+        n = l - 0x1;
+    } else {
+        n = g[b('0x5')] - 0x1;
+    }
+    while (m < l) {
+        if (p) {
+            k[n] = h[b('0x9')](m);
+        } else {
+            k[m] = h[b('0x9')](m);
+        }
+        m++;
+        n--;
+    }
+    if (p == 0x1) {
+        m = 0x0;
+    }
+    n = g[b('0x5')] - l % g[b('0x5')];
+    while (n > 0x0) {
+        if (p == 0x2) {
+            r = Math[b('0xa')](Math['random']() * 0x100);
+            while (!r) {
+                r = Math[b('0xa')](Math['random']() * 0x100);
+            }
+            k[m] = r;
+        } else {
+            k[m] = 0x0;
+        }
+        m++;
+        n--;
+    }
+    if (p == 0x2) {
+        k[l] = 0x0;
+        k[g[b('0x5')] - 0x2] = 0x2;
+        k[g[b('0x5')] - 0x1] = 0x0;
+    }
+    s = k[b('0x7')];
+    for (m = 0x0; m < s; m += g[b('0x5')]) {
+        u = new BigInt();
+        n = 0x0;
+        for (o = m; o < m + g[b('0x5')]; ++n) {
+            u[b('0xb')][n] = k[o++];
+            u[b('0xb')][n] += k[o++] << 0x8;
+        }
+        v = g[b('0xc')][b('0xd')](u, g['e']);
+        if (q == 0x1) {
+            w = biToBytes(v);
+        } else {
+            w = g[b('0x6')] == 0x10 ? biToHex(v) : biToString(v, g[b('0x6')]);
+        }
+        t += w;
+    }
+    return t;
+}
+function decryptedString(x, y) {
+    var z = y['split']('\x20');
+    var A;
+    var B, C;
+    var D;
+    var E = '';
+    for (B = 0x0; B < z['length']; ++B) {
+        if (x[b('0x6')] == 0x10) {
+            D = biFromHex(z[B]);
+        } else {
+            D = biFromString(z[B], x[b('0x6')]);
+        }
+        A = x[b('0xc')][b('0xd')](D, x['d']);
+        for (C = 0x0; C <= biHighIndex(A); ++C) {
+            E += String['fromCharCode'](A[b('0xb')][C] & 0xff, A[b('0xb')][C] >> 0x8);
+        }
+    }
+    if (E[b('0x9')](E[b('0x7')] - 0x1) == 0x0) {
+        E = E[b('0xe')](0x0, E[b('0x7')] - 0x1);
+    }
+    return E;
 }
 
 var RSAAPP = {};
