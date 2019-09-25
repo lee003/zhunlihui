@@ -3,10 +3,10 @@ var Globals = {
     ctx: 'http://www.zlhui.com',
     ctxImage: 'http://www.zlhui.com/patent_img',
     ftpCtxImage: 'http://www.zlhui.com/zlhui_img',
-    sessionId: '80C4A8C65B4EB9C3AFAB4D06B023EA46',
-    modulus: 'b5938b356ce3d4b1f0944affbedebac251d2d3309460c8ed27b7be35a4fd4f869b43ef9bc3d20df18dfb116dae457c979b18663e0f346db1f0e3c641dc521baf3040d6dc4c2ee8dd2b3145f776f6f7b6517c190581f89127f5cc8eaa11e702f924e92dc833ba224d634ffed1733356d06b3eb6ad69430dd787845aa5c87f0009',
+    sessionId: 'DB1AA58744B13A7B96F84B18401461F6',
+    modulus: '98d597af37fe4aea842fa12174571a66ccdc60eac968d83c59a0299fd351f11bf454f24f6707649ba3a8ae1b5bd355fddb39a374431eacfa102d7028d62c9717cf2540023c1d4aefb0b6c403d4c1cb475e008699c41904853b7ebe3bf7fd17cf71f33578d68be7e5b6216ef7bcca9d9de533f8109ce82cd0e3b1600734a140d3',
     memberId: '',
-    cutime:'20190920',
+    cutime:'20190924',
     tmImgPath:'http://123.207.87.154/tm_img'
 };
 
