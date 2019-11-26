@@ -1,10 +1,3 @@
-"""
-    @author: 王帅帅
-    @project: zhuanlihui
-    @file: test_password.py
-    @time: 2019/8/19/019 9:02
-    @desc:
-"""
 import re, random, string
 
 # count1 = int(input('请输入密码个数(必须大于0)： '))

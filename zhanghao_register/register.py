@@ -1,10 +1,3 @@
-"""
-    @author: 王帅帅
-    @project: zhuanlihui
-    @file: zc.py
-    @time: 2019/8/15/015 17:49
-    @desc:
-"""
 import requests
 from function import *
 import time

@@ -1,11 +1,3 @@
-"""
-    @author: 王帅帅
-    @project: zhuanlihui
-    @file: put_id_rebbit.py
-    @time: 2019/8/16/016 15:45
-    @desc:
-"""
-
 import pika
 from function import conMongo
 

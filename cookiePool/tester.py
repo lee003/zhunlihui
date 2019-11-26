@@ -1,10 +1,3 @@
-"""
-    @author: 王帅帅
-    @project: zhuanlihui
-    @file: tester.py
-    @time: 2019/8/12/012 14:28
-    @desc:
-"""
 import json
 from cookiePool.redisdb import *
 from cookiePool.config import *

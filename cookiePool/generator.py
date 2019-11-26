@@ -1,10 +1,3 @@
-"""
-    @author: 王帅帅
-    @project: zhuanlihui
-    @file: generator.py
-    @time: 2019/8/12/012 14:25
-    @desc:
-"""
 import json
 import requests
 from cookiePool.redisdb import *

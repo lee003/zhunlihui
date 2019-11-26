@@ -1,10 +1,3 @@
-"""
-    @author: 王帅帅
-    @project: zhuanlihui
-    @file: scheduler.py
-    @time: 2019/8/12/012 15:01
-    @desc:
-"""
 import time
 from multiprocessing import Process
 from cookiePool.cookiesapi import app

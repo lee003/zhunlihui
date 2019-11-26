@@ -1,10 +1,3 @@
-"""
-    @author: 王帅帅
-    @project: zhuanlihui
-    @file: redisdb.py
-    @time: 2019/8/12/012 14:15
-    @desc:
-"""
 import redis
 import random
 from cookiePool.config import *

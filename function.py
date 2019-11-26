@@ -1,11 +1,3 @@
-
-"""
-    @author: 王帅帅
-    @project: yingyongbao
-    @file: function.py
-    @time: 2019/7/18/018 18:09
-    @desc:
-"""
 import redis
 from pymongo import MongoClient
 

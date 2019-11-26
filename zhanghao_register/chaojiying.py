@@ -1,11 +1,3 @@
-"""
-    @author: 王帅帅
-    @project: zhuanlihui
-    @file: chaojiying.py
-    @time: 2019/8/16/016 9:17
-    @desc:
-"""
-
 import requests
 from hashlib import md5
 import os

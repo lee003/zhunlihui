@@ -1,10 +1,3 @@
-"""
-    @author: 王帅帅
-    @project: zhuanlihui
-    @file: demo01_spider.py
-    @time: 2019/8/8/008 9:46
-    @desc:
-"""
 import requests.adapters
 import re
 import json

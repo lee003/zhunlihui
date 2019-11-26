@@ -1,10 +1,3 @@
-"""
-    @author: 王帅帅
-    @project: zhuanlihui
-    @file: cookiesapi.py
-    @time: 2019/8/12/012 14:25
-    @desc:
-"""
 from flask import Flask, g
 import json
 from cookiePool.redisdb import *

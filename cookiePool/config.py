@@ -1,10 +1,3 @@
-"""
-    @author: 王帅帅
-    @project: zhuanlihui
-    @file: config.py
-    @time: 2019/8/12/012 14:16
-    @desc:
-"""
 
 # Redis 数据库地址
 REDIS_HOST = '127.0.0.1'
